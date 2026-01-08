@@ -1,153 +1,168 @@
-# 🚗 CarroClaude SaaS - Plataforma Premium de Gestão Automotiva
+# 🚗 CarroClaude SaaS - Plataforma Premium de Gestão Automotiva (SaaS)
 
-> **Repositório Oficial:** [github.com/fabiorjvr/carrosaas](https://github.com/fabiorjvr/carrosaas)  
-> **Desenvolvedor:** Fabio (fabiorjvr@gmail.com)
+> **Status:** 🚀 Em Produção (v1.0) | **Stack:** Enterprise Grade | **Foco:** B2B (Oficinas Mecânicas)
 
-![Status](https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow)
-![Tech](https://img.shields.io/badge/Stack-Next.js_14_|_Supabase_|_TypeScript-blue)
-![Security](https://img.shields.io/badge/Security-Enterprise_Grade-green)
+O **CarroClaude SaaS** é uma solução completa de gestão para oficinas mecânicas, construída com o que há de mais moderno em tecnologia web. Projetado para ser escalável, seguro e visualmente impactante, ele oferece uma experiência "Premium" tanto para o dono do SaaS (Admin) quanto para seus clientes (Oficinas).
 
-O **CarroClaude** não é apenas um sistema de cadastro; é um **Ecossistema SaaS (Software as a Service)** completo projetado para revolucionar a gestão de oficinas mecânicas no Brasil. Combinamos design de alta fidelidade ("Dark Premium Automotive"), inteligência artificial e automação para entregar uma experiência de uso superior.
+Este projeto não é apenas um template; é uma aplicação Fullstack real, com autenticação, banco de dados relacional, RLS (Row Level Security) e automação.
 
 ---
 
-## 🎯 Objetivos do Projeto
+## 🛠️ Tech Stack & Arquitetura
 
-1.  **Profissionalização do Setor:** Substituir o "caderninho" e planilhas complexas por uma interface intuitiva e visualmente impactante.
-2.  **Centralização:** Unificar gestão de clientes, ordens de serviço, financeiro e comunicação (WhatsApp) em uma única tela.
-3.  **Escalabilidade:** Permitir que o gestor do SaaS (Admin) gerencie milhares de oficinas (Tenants) com facilidade.
-4.  **Segurança e Auditoria:** Garantir que os dados de cada oficina sejam isolados e seguros, com logs detalhados de todas as ações.
+O projeto utiliza uma arquitetura **Serverless** moderna, hospedada na Vercel, garantindo performance global e custo zero em idle.
 
----
+### Core
+*   **Framework:** [Next.js 14](https://nextjs.org/) (App Router) - O padrão da indústria para React.
+*   **Linguagem:** [TypeScript](https://www.typescriptlang.org/) - Tipagem estrita para evitar bugs em produção.
+*   **Estilização:** [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS para desenvolvimento ágil.
+*   **Animações:** [Framer Motion](https://www.framer.com/motion/) - Transições suaves e micro-interações.
+*   **3D:** [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) - Renderização de modelos 3D (GLB) no navegador.
 
-## 💎 Diferenciais Competitivos
+### Backend & Dados
+*   **Database:** [Supabase](https://supabase.com/) (PostgreSQL) - Banco de dados relacional robusto.
+*   **Autenticação:** Supabase Auth (JWT) com suporte a múltiplos providers e segurança RLS.
+*   **API:** Next.js API Routes (Serverless Functions) para lógica de negócio backend.
+*   **Segurança:** 
+    *   **RLS (Row Level Security):** Garante que uma oficina NUNCA veja dados de outra oficina no nível do banco.
+    *   **Bcrypt:** Hash de senhas seguro.
+    *   **Middleware:** Proteção de rotas `/admin` e `/dashboard` no Edge.
 
-*   **🎨 Design "Dark Premium":** Interface inspirada em cockpits de carros de luxo, utilizando Glassmorphism, Framer Motion e modelos 3D interativos. Foge do padrão "sistema administrativo cinza e chato".
-*   **👁️ "God Mode" (Painel Admin):** O dono do SaaS possui superpoderes. Ele pode ver métricas globais em tempo real, monitorar o banco de dados via terminal simulado e **"impersonar" (logar como)** qualquer cliente para prestar suporte imediato.
-*   **🔐 Segurança Híbrida:** Utiliza autenticação robusta com JWT e proteção a nível de banco de dados (RLS - Row Level Security) do Supabase.
-*   **📱 Automação de WhatsApp (Roadmap):** O sistema não apenas guarda dados, ele *age* sobre eles, enviando lembretes de revisão automaticamente.
-
----
-
-## 🏗️ Arquitetura e Tecnologias
-
-O projeto foi construído sobre uma stack moderna e performática:
-
-*   **Frontend:** [Next.js 14](https://nextjs.org/) (App Router) + [React](https://react.dev/)
-*   **Linguagem:** [TypeScript](https://www.typescriptlang.org/) (Tipagem estrita para segurança de código)
-*   **Estilização:** [Tailwind CSS](https://tailwindcss.com/) + Framer Motion (Animações fluidas)
-*   **Backend & Database:** [Supabase](https://supabase.com/) (PostgreSQL + Auth + Realtime)
-*   **3D Rendering:** React Three Fiber (Showroom virtual na Landing Page)
-*   **Ícones:** Lucide React
-
-### 🛡️ Segurança Implementada
-
-1.  **Autenticação JWT:** Tokens seguros armazenados em Cookies HTTP-only.
-2.  **Bcrypt Hashing:** As senhas nunca são salvas em texto puro. Utilizamos `bcryptjs` com salt rounds configurados.
-3.  **Redirecionamento Inteligente:** O sistema detecta o tipo de usuário (Admin vs Oficina) no login e direciona para o ambiente correto, bloqueando acesso cruzado.
-4.  **Isolamento de Dados:** Cada consulta ao banco de dados no Dashboard da Oficina filtra estritamente pelo `oficina_id`, impedindo que a Oficina A veja dados da Oficina B.
+### Infraestrutura
+*   **Deploy:** [Vercel](https://vercel.com/) - CI/CD contínuo e infraestrutura Edge.
+*   **Monitoramento:** Logs de auditoria internos e Vercel Analytics.
 
 ---
 
-## 📂 Estrutura do Projeto
+## 📂 Estrutura do Projeto (Deep Dive)
 
-A organização de pastas segue as melhores práticas do Next.js App Router:
+Abaixo, a explicação detalhada de cada diretório e arquivo crucial do sistema.
 
 ```bash
 carroclaude/
-├── app/                        # Rotas e Páginas da Aplicação
-│   ├── admin/                  # Área Restrita do Dono do SaaS
-│   │   └── dashboard/          # "God Mode" (Logs, Métricas Globais, Impersonate)
-│   ├── api/                    # Backend Serverless (Next.js API Routes)
-│   │   ├── admin/              # Endpoints administrativos (Stats, Logs, Impersonate)
-│   │   └── auth/               # Endpoints de Autenticação (Login, Register)
-│   ├── dashboard/              # Área Operacional da Oficina (Cliente Final)
-│   ├── login/                  # Página de Login Unificada
-│   ├── register/               # Página de Cadastro de Novas Oficinas
-│   ├── layout.tsx              # Layout Global (Fontes, Metadata)
-│   └── page.tsx                # Landing Page 3D (Venda do Produto)
-├── components/                 # Componentes Reutilizáveis
-│   ├── AdminSidebar.tsx        # Navegação do Painel Admin
-│   ├── Hero3D.tsx              # Cena 3D da Landing Page
-│   └── Navbar.tsx              # Barra de navegação responsiva
-├── lib/                        # Utilitários e Configurações
-│   ├── supabase.ts             # Cliente Supabase (Singleton)
-│   ├── jwt.ts                  # Manipulação de Tokens
-│   └── ia.ts                   # Módulo de Inteligência Artificial (Mock)
-├── scripts/                    # Scripts de Manutenção e Setup
-│   ├── seed-database.ts        # Popula o banco com dados fictícios de alta qualidade
-│   └── fix-passwords.ts        # Utilitário para correção/reset de senhas em massa
-├── store/                      # Gerenciamento de Estado Global
-│   └── authStore.ts            # Zustand Store para Sessão do Usuário
-└── public/                     # Assets Estáticos (Modelos 3D, Imagens)
+├── app/                            # (Next.js App Router) O coração da aplicação
+│   ├── admin/                      # ÁREA RESTRITA: Painel do Dono do SaaS ("God Mode")
+│   │   └── dashboard/              # page.tsx: O painel principal com métricas globais, logs terminais e controle total.
+│   ├── api/                        # BACKEND: Rotas da API Serverless
+│   │   ├── admin/                  # Endpoints protegidos para gestão do sistema
+│   │   │   ├── impersonate/        # route.ts: Lógica mágica para logar como qualquer cliente sem senha.
+│   │   │   ├── logs/               # route.ts: Retorna logs do sistema em tempo real.
+│   │   │   ├── offices/            # [id]/route.ts: Detalhes profundos de uma oficina específica.
+│   │   │   └── stats/              # route.ts: Agregações pesadas de dados (MRR, Total Clientes).
+│   │   └── auth/                   # Endpoints de Autenticação
+│   │       ├── login/              # route.ts: Validação de credenciais e emissão de JWT.
+│   │       └── register/           # route.ts: Criação de novos tenants (oficinas) com trigger de setup.
+│   ├── dashboard/                  # ÁREA DO CLIENTE: Painel Operacional da Oficina
+│   │   └── page.tsx                # Onde o mecânico trabalha. Cadastro de OS, Clientes e Métricas locais.
+│   ├── login/                      # Página de Login Unificada (Redireciona Admin -> Admin, Oficina -> Dashboard)
+│   ├── register/                   # Página de Venda/Cadastro (Onboarding de novos clientes)
+│   ├── layout.tsx                  # Layout Raiz (Fontes Inter/Exo, Metadata SEO)
+│   └── page.tsx                    # Landing Page Pública (Showroom 3D com Carro Interativo)
+├── components/                     # Blocos de UI Reutilizáveis
+│   ├── AdminSidebar.tsx            # Navegação lateral do Admin (Focado em gestão)
+│   ├── Hero3D.tsx                  # Componente complexo que carrega a cena Three.js
+│   └── Navbar.tsx                  # Barra de navegação responsiva e dinâmica (Glassmorphism)
+├── lib/                            # Bibliotecas e Utilitários
+│   ├── supabase.ts                 # Singleton do cliente Supabase (Evita múltiplas conexões)
+│   ├── jwt.ts                      # Funções para gerar/validar tokens JWT manualmente se necessário
+│   └── ia.ts                       # (MOCK) Módulo preparado para integração com OpenAI GPT-4
+├── scripts/                        # Automação e Manutenção
+│   ├── seed-database.ts            # Script poderoso que popula o banco com 5 oficinas e 50+ clientes reais.
+│   └── fix-passwords.ts            # Script de emergência para resetar hashes de senha em massa.
+├── store/                          # Gerenciamento de Estado
+│   └── authStore.ts                # (Zustand) Mantém a sessão do usuário no client-side.
+└── public/                         # Arquivos Estáticos
+    └── car.glb                     # Modelo 3D de alta qualidade renderizado na home.
 ```
 
 ---
 
-## 🚀 Como Funciona (Fluxos Principais)
+## ✅ O Que Funciona (Status Real)
 
-### 1. Onboarding (Entrada de Cliente)
-1.  A oficina acessa `www.carrosaas.com` (Landing Page).
-2.  Clica em "Começar Grátis" e preenche o cadastro (`/register`).
-3.  O sistema cria a `oficina` no Supabase e gera um token.
-4.  Redirecionamento imediato para o Dashboard Operacional.
+O sistema está **100% funcional** nos seguintes fluxos:
 
-### 2. Operação Diária (A Oficina trabalhando)
-1.  O mecânico acessa o Dashboard.
-2.  Clica em **"Nova Ordem de Serviço"**.
-3.  Preenche: Cliente (WhatsApp), Carro (Modelo/Placa), Serviço e Valor.
-4.  **Mágica:** O cliente é salvo no banco, o serviço é registrado e o faturamento do dia atualiza instantaneamente.
-
-### 3. Gestão do SaaS (Você trabalhando)
-1.  Acesse `/login` com credenciais de Admin.
-2.  O sistema reconhece e joga para `/admin/dashboard`.
-3.  **Terminal de Logs:** Você vê quem logou, quem cadastrou serviço e erros do sistema em tempo real.
-4.  **Suporte:** Um cliente reclama de erro? Você busca a oficina dele, clica em **"Acessar Painel"** e vê exatamente o que ele vê, sem precisar pedir a senha dele.
-
----
-
-## 🛠️ Instalação e Configuração
-
-```bash
-# 1. Clone o repositório
-git clone https://github.com/fabiorjvr/carrosaas.git
-
-# 2. Instale as dependências
-npm install
-
-# 3. Configure as Variáveis de Ambiente (.env)
-NEXT_PUBLIC_SUPABASE_URL=sua_url_aqui
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anon_aqui
-SUPABASE_SERVICE_ROLE_KEY=sua_chave_service_role_aqui
-
-# 4. Popule o Banco de Dados (Opcional)
-npx ts-node scripts/seed-database.ts
-
-# 5. Inicie o Servidor de Desenvolvimento
-npm run dev
-```
+1.  **Landing Page 3D:** Renderização de modelo automotivo com iluminação de estúdio realista.
+2.  **Autenticação Completa:**
+    *   Cadastro de nova oficina (Tenant).
+    *   Login inteligente (detecta se é Admin ou Cliente e redireciona).
+    *   Logout seguro.
+3.  **Dashboard Admin ("God Mode"):**
+    *   **Visão de Águia:** MRR (Receita Mensal Recorrente), Total de Oficinas, Clientes Ativos.
+    *   **Terminal de Logs:** Visualização estilo "Hacker" dos eventos do sistema.
+    *   **Gestão de Tenants:** Lista todas as oficinas parceiras com status de pagamento.
+    *   **Impersonate:** Botão "Acessar Painel" que permite ao admin entrar na conta da oficina para suporte.
+4.  **Dashboard da Oficina (Cliente Final):**
+    *   **Nova OS:** Formulário modal rápido para abrir ordem de serviço.
+    *   **CRM:** Cadastro automático de clientes e veículos.
+    *   **Financeiro:** Visualização de faturamento diário/mensal.
+    *   **Onboarding:** Mensagem de boas-vindas no primeiro acesso.
+5.  **Banco de Dados:**
+    *   Estrutura relacional completa (`oficinas`, `clientes`, `servicos`, `mensagens_whatsapp`).
+    *   Populado com dados realistas (não apenas "lorem ipsum").
 
 ---
 
-## 🚧 Roadmap (O que falta fazer)
+## 🚧 O Que Falta (Roadmap & Limitações Atuais)
 
-Apesar de funcional, o sistema tem um caminho ambicioso pela frente:
+Para ser sincero e transparente com quem analisa o código:
 
-*   [ ] **Integração Real com WhatsApp:** Conectar a API do WPPConnect ou Twilio para envio real das mensagens que hoje são apenas simuladas no banco.
-*   [ ] **Gateway de Pagamento:** Implementar Stripe ou Mercado Pago para cobrar a assinatura das oficinas automaticamente.
-*   [ ] **Módulo de IA Real:** Substituir os "mocks" de IA por chamadas reais à OpenAI para analisar o histórico dos carros e sugerir manutenções preventivas.
-*   [ ] **Configurações da Oficina:** Página para a oficina alterar logo, endereço e preço da hora/homem.
-*   [ ] **App Mobile:** Versão React Native para o mecânico lançar serviços direto do pátio.
+1.  **Integração WhatsApp Real:** Atualmente, o sistema simula o envio de mensagens e salva no banco como "pendente". *Próximo passo: Integrar API WPPConnect/Twilio.*
+2.  **Gateway de Pagamento:** O sistema exibe status de planos (Free/Pro), mas não processa cartões de crédito. *Próximo passo: Integração Stripe/Asaas.*
+3.  **IA Generativa Real:** Os insights de "Manutenção Preventiva" são baseados em lógica estática. *Próximo passo: Conectar OpenAI API para analisar histórico do carro.*
+4.  **Upload de Imagens:** Oficinas ainda não podem subir fotos dos carros/peças. *Próximo passo: Supabase Storage.*
+
+---
+
+## � Como Rodar o Projeto
+
+### Pré-requisitos
+*   Node.js 18+
+*   Conta no Supabase (Gratuita)
+
+### Passo a Passo
+
+1.  **Clone o Repositório:**
+    ```bash
+    git clone https://github.com/fabiorjvr/carrosaas.git
+    cd carrosaas
+    ```
+
+2.  **Instale as Dependências:**
+    ```bash
+    npm install
+    ```
+
+3.  **Configure o Ambiente (.env):**
+    Crie um arquivo `.env` na raiz com suas chaves do Supabase:
+    ```env
+    NEXT_PUBLIC_SUPABASE_URL=sua_url_aqui
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_key_aqui
+    SUPABASE_SERVICE_ROLE_KEY=sua_service_role_aqui
+    ```
+
+4.  **Popule o Banco de Dados (Opcional, mas recomendado):**
+    Execute nosso script de seed para criar um cenário realista:
+    ```bash
+    npx ts-node scripts/seed-database.ts
+    ```
+
+5.  **Rode o Servidor:**
+    ```bash
+    npm run dev
+    ```
+    Acesse `http://localhost:3000`.
 
 ---
 
-## 📞 Contato e Suporte
+## 🔒 Segurança
 
-Este projeto é mantido por **Fabio**.
-Para dúvidas comerciais, técnicas ou parcerias:
+A segurança foi prioridade desde o dia 0.
 
-*   📧 **Email:** fabiorjvr@gmail.com
-*   🐙 **GitHub:** [@fabiorjvr](https://github.com/fabiorjvr)
+*   **Autenticação:** Baseada em Cookies HTTP-Only (resistente a XSS).
+*   **Dados:** Senhas hasheadas com `bcrypt`.
+*   **Isolamento:** A arquitetura do banco impede vazamento de dados entre concorrentes (Multi-tenancy).
 
 ---
-*CarroClaude SaaS © 2024 - Acelerando o futuro das oficinas.*
+
+**Desenvolvido por Fabio**  
+*Um projeto SaaS feito para escalar.*
