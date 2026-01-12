@@ -8,11 +8,9 @@ const supabaseAdmin = createClient(
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+{ params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params;
-
+const { id } = await params;
     // Buscar clientes da oficina
     const { data: clientes, error: clientesError } = await supabaseAdmin
       .from('clientes')
