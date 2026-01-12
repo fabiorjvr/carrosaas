@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Gerar token JWT válido para esta oficina
-    const token = gerarToken({
+    const token = signToken({
       id: oficina.id,
       email: oficina.email,
       nome: oficina.nome,
