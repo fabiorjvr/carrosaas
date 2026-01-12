@@ -1,4 +1,5 @@
-'use client';
+263
+  'use client';
 // @ts-nocheck
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
@@ -492,3 +493,4 @@ function NewServiceModal({ onClose, onSuccess, oficinaId }: any) {
     </div>
   );
 }
+oficina=(user?.oficina_id)  // oficina={undefined}
