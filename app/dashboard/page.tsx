@@ -260,7 +260,6 @@ export default function Dashboard() {
             setShowNewServiceModal(false);
             fetchData();
           }} 
-          oficinaId={user?.oficina_id}
         />
       )}
     </div>
