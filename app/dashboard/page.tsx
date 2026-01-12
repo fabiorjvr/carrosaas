@@ -65,7 +65,7 @@ export default function Dashboard() {
   }, [user, router]);
 
   const fetchData = async () => {
-    if (!user?.oficina_id) return;
+    if (!(user as any)?.oficina_id) return;
     
     try {
       // Buscar serviços recentes
@@ -75,7 +75,7 @@ export default function Dashboard() {
           *,
           clientes (nome, carro_modelo, placa)
         `)
-        .eq('oficina_id', user.oficina_id)
+        .eq('oficina_id', (user as any).oficina_id)
         .order('created_at', { ascending: false })
         .limit(10);
         
